@@ -1,21 +1,14 @@
 ---
-title: "index"
-author: "You"
+title: "Lab 13"
+author: "Jess Ho"
 format:
   html:
     toc: true
     toc_float: true
     embed-resources: true
     css: Color themes.css
+editor: visual
 execute: 
   warning: false
   message: false
 ---
-
-# About Me
-
-[Sir Garrix](https://martingarrix.com/)
-
-![](My_Melody_happy.png)
-
-[Lab 13](Lab 13.html)

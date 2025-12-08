@@ -1,0 +1,8 @@
+body {
+  background-color: mistyrose;
+}
+
+
+Plug "rktjmp/lush.nvim"
+Plug "Scysta/pink-panic.nvim"
+
