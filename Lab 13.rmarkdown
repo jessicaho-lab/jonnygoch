@@ -87,8 +87,3 @@ ggraph(net, layout = "fr") +
 
 ```
 
-```{r}
-getwd()
-list.files()
-
-```

@@ -1,0 +1,97 @@
+---
+title: "Lab S7"
+author: "Jess Ho"
+format:
+  html:
+    toc: true
+    toc_float: true
+    embed-resources: true
+    css: Color themes.css
+editor: visual
+execute: 
+  warning: false
+  message: false
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(DT)
+library(viridis)
+library(janitor)
+library(plotly)
+library(respirometry)
+```
+
+```{r}
+soilMAGs <- read_csv("NEON_soilMAGs_soilChem.csv", show_col_types = FALSE)
+glimpse(soilMAGs)
+
+```
+
+```{r}
+colnames(soilMAGs)
+
+```
+
+```{r}
+site_meta <- read_csv("NEON_soilMAGs_soilChem.csv") %>%
+  clean_names() %>%
+  glimpse()
+
+```
+
+```{r}
+set.seed(42)
+
+site_coords <- soilMAGs %>%
+  distinct(site) %>%
+  mutate(
+    latitude = runif(n(), min = 35, max = 45),
+    longitude = runif(n(), min = -120, max = -70)
+  )
+
+soilMAGs_geo <- soilMAGs %>%
+  left_join(site_coords, by = "site")
+
+```
+
+```{r}
+taxa_counts <- soilMAGs_geo %>%
+  group_by(site, genus) %>%
+  summarize(count = n(), .groups = "drop")
+
+```
+
+```{r}
+taxa_abundance <- taxa_counts %>%
+  group_by(site) %>%
+  mutate(relative_abundance = count / sum(count))
+
+```
+
+```{r}
+genus_of_interest <- "Acidobacteria"
+
+taxa_map <- taxa_abundance %>%
+  filter(genus == genus_of_interest) %>%
+  left_join(soilMAGs_geo %>% distinct(site, latitude, longitude), by = "site")
+
+ggplot(taxa_map, aes(x = longitude, y = latitude, size = relative_abundance, color = relative_abundance)) +
+  geom_point(alpha = 0.7) +
+  scale_color_viridis() +
+  theme_minimal() +
+  labs(title = paste("Distribution of", genus_of_interest),
+       x = "Longitude", y = "Latitude", size = "Relative Abundance")
+
+```
+
+```{r}
+taxa_counts <- soilMAGs_geo %>%
+  group_by(site, genus) %>%
+  summarize(count = n(), .groups = "drop")
+
+```
+
+```         
+```
